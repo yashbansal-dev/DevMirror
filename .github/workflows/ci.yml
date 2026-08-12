@@ -23,10 +23,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci || npm install
+        run: npm install
 
       - name: Build all workspace packages
         run: npm run build
@@ -35,7 +34,7 @@ jobs:
         run: npm test
 
       - name: Test CLI analyze command
-        run: npm run dev:cli analyze ./examples/demo-fullstack
+        run: npx tsx apps/cli/src/index.ts analyze ./examples/demo-fullstack
 
       - name: Test CLI snapshot generation
-        run: npm run dev:cli snapshot
+        run: npx tsx apps/cli/src/index.ts snapshot
