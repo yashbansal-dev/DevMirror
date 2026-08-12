@@ -1,7 +1,7 @@
 import { ProjectManifest, SnapshotConfig } from '@devmirror/shared';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import YAML from 'yaml';
+import { parse, stringify } from 'yaml';
 
 export class SnapshotManager {
   createSnapshotConfig(manifest: ProjectManifest): SnapshotConfig {
@@ -40,7 +40,7 @@ export class SnapshotManager {
 
   async saveSnapshot(manifest: ProjectManifest, targetPath: string): Promise<string> {
     const snapshotObj = this.createSnapshotConfig(manifest);
-    const yamlString = YAML.stringify(snapshotObj);
+    const yamlString = stringify(snapshotObj);
     const fullPath = path.resolve(targetPath);
     await fs.writeFile(fullPath, yamlString, 'utf-8');
     return fullPath;
@@ -48,7 +48,7 @@ export class SnapshotManager {
 
   async loadSnapshot(snapshotFilePath: string): Promise<SnapshotConfig> {
     const content = await fs.readFile(snapshotFilePath, 'utf-8');
-    const parsed = YAML.parse(content);
+    const parsed = parse(content);
     return parsed as SnapshotConfig;
   }
 }

@@ -13,5 +13,23 @@
     "forceConsistentCasingInFileNames": true,
     "composite": true
   },
-  "exclude": ["node_modules", "dist", "build", "apps/dashboard"]
+  "files": [],
+  "references": [
+    { "path": "packages/shared" },
+    { "path": "plugins/node" },
+    { "path": "plugins/python" },
+    { "path": "plugins/docker" },
+    { "path": "plugins/postgres" },
+    { "path": "plugins/redis" },
+    { "path": "packages/detectors" },
+    { "path": "packages/analyzer" },
+    { "path": "packages/environment" },
+    { "path": "packages/docker" },
+    { "path": "packages/services" },
+    { "path": "packages/runtime" },
+    { "path": "packages/diagnostics" },
+    { "path": "packages/snapshots" },
+    { "path": "packages/ai" },
+    { "path": "apps/cli" }
+  ]
 }

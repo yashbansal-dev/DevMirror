@@ -11,7 +11,7 @@
   ],
   "type": "module",
   "scripts": {
-    "build": "npm run build --workspace=@devmirror/shared && npm run build --workspace=@devmirror/plugin-node && npm run build --workspace=@devmirror/plugin-python && npm run build --workspace=@devmirror/plugin-docker && npm run build --workspace=@devmirror/plugin-postgres && npm run build --workspace=@devmirror/plugin-redis && npm run build --workspace=@devmirror/detectors && npm run build --workspace=@devmirror/analyzer && npm run build --workspace=@devmirror/environment && npm run build --workspace=@devmirror/docker && npm run build --workspace=@devmirror/services && npm run build --workspace=@devmirror/runtime && npm run build --workspace=@devmirror/diagnostics && npm run build --workspace=@devmirror/snapshots && npm run build --workspace=@devmirror/ai && npm run build --workspace=devmirror && npm run build --workspace=@devmirror/dashboard",
+    "build": "tsc -b && npm run build --prefix apps/dashboard",
     "test": "tsx --test packages/*/test/**/*.test.ts",
     "cli": "node apps/cli/dist/index.js",
     "dev:cli": "tsx apps/cli/src/index.ts"

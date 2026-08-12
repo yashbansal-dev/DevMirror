@@ -2,7 +2,20 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "composite": true,
+    "esModuleInterop": true
   },
+  "references": [
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/analyzer" },
+    { "path": "../../packages/environment" },
+    { "path": "../../packages/services" },
+    { "path": "../../packages/docker" },
+    { "path": "../../packages/runtime" },
+    { "path": "../../packages/diagnostics" },
+    { "path": "../../packages/snapshots" },
+    { "path": "../../packages/ai" }
+  ],
   "include": ["src/**/*"]
 }

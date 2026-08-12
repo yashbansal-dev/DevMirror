@@ -2,7 +2,16 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "composite": true
   },
+  "references": [
+    { "path": "../shared" },
+    { "path": "../../plugins/node" },
+    { "path": "../../plugins/python" },
+    { "path": "../../plugins/docker" },
+    { "path": "../../plugins/postgres" },
+    { "path": "../../plugins/redis" }
+  ],
   "include": ["src/**/*"]
 }
