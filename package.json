@@ -1,0 +1,27 @@
+{
+  "name": "devmirror-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DevMirror - Universal Reproducible Development Environment for GitHub Repositories",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "plugins/*",
+    "examples/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "npm run build --workspace=@devmirror/shared && npm run build --workspace=@devmirror/plugin-node && npm run build --workspace=@devmirror/plugin-python && npm run build --workspace=@devmirror/plugin-docker && npm run build --workspace=@devmirror/plugin-postgres && npm run build --workspace=@devmirror/plugin-redis && npm run build --workspace=@devmirror/detectors && npm run build --workspace=@devmirror/analyzer && npm run build --workspace=@devmirror/environment && npm run build --workspace=@devmirror/docker && npm run build --workspace=@devmirror/services && npm run build --workspace=@devmirror/runtime && npm run build --workspace=@devmirror/diagnostics && npm run build --workspace=@devmirror/snapshots && npm run build --workspace=@devmirror/ai && npm run build --workspace=devmirror",
+    "test": "tsx --test packages/*/test/**/*.test.ts",
+    "cli": "node apps/cli/dist/index.js",
+    "dev:cli": "tsx apps/cli/src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
