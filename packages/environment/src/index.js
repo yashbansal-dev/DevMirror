@@ -44,7 +44,19 @@ export class EnvironmentManager {
     }
     async prepareEnvironment(projectDir, manifest, customOverrides = {}) {
         const existingEnv = await this.readEnvFile(path.join(projectDir, '.env'));
-        const finalEnv = { ...process.env, ...existingEnv, ...customOverrides };
+        const finalEnv = {};
+        for (const [k, v] of Object.entries(process.env)) {
+            if (v !== undefined)
+                finalEnv[k] = v;
+        }
+        for (const [k, v] of Object.entries(existingEnv)) {
+            if (v !== undefined)
+                finalEnv[k] = v;
+        }
+        for (const [k, v] of Object.entries(customOverrides)) {
+            if (v !== undefined)
+                finalEnv[k] = v;
+        }
         for (const envVar of manifest.environmentVariables) {
             if (!finalEnv[envVar.key] && envVar.defaultValue) {
                 finalEnv[envVar.key] = envVar.defaultValue;

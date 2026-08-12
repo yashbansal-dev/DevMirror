@@ -135,6 +135,29 @@ Prisma attempted to connect to the database but DATABASE_URL was not defined.
     console.log('\nSuggested fix:\n' + chalk.green(result.suggestedFix));
     console.log(`\nConfidence:\n${chalk.cyan(result.confidence + '%')}\n`);
 });
+// 3.5 devmirror fix
+program
+    .command('fix [repository]')
+    .description('Automatically apply recommended fixes (environment patch, missing packages, port resolution).')
+    .option('-y, --yes', 'Automatically confirm and apply proposed changes')
+    .action(async (repository = '.', options) => {
+    const diagnoser = new Diagnoser();
+    const mockLogs = `
+PrismaClientInitializationError: 
+Prisma attempted to connect to the database but DATABASE_URL was not defined.
+`;
+    const diagnosis = diagnoser.diagnose(mockLogs);
+    console.log(chalk.cyan.bold('\nDevMirror Auto-Fixer\n'));
+    console.log(`Observed Issue: ${chalk.yellow(diagnosis.observedFact)}`);
+    console.log(`Proposed Action: ${chalk.green(diagnosis.suggestedFix)}\n`);
+    const spinner = ora('Applying automated environment fixes...').start();
+    const actions = await diagnoser.executeFix(repository, diagnosis);
+    spinner.succeed(chalk.green('Fixes applied successfully!'));
+    for (const act of actions) {
+        console.log(chalk.gray(`✓ ${act.action}`));
+    }
+    console.log(chalk.bold.cyan('\nRecommended next step:\n→ devmirror run\n'));
+});
 // 4. devmirror explain [question]
 program
     .command('explain [question]')

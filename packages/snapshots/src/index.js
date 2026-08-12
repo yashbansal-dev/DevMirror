@@ -3,8 +3,8 @@ import * as path from 'node:path';
 import YAML from 'yaml';
 export class SnapshotManager {
     createSnapshotConfig(manifest) {
-        const requiredEnvKeys = manifest.environmentVariables.filter(e => e.required).map(e => e.key);
-        const optionalEnvKeys = manifest.environmentVariables.filter(e => !e.required).map(e => e.key);
+        const requiredEnvKeys = manifest.environmentVariables.filter((e) => e.required).map((e) => e.key);
+        const optionalEnvKeys = manifest.environmentVariables.filter((e) => !e.required).map((e) => e.key);
         return {
             version: '1',
             name: manifest.name,
@@ -16,7 +16,7 @@ export class SnapshotManager {
                 name: manifest.packageManager,
                 version: manifest.packageManagerVersion,
             } : undefined,
-            services: manifest.services.map(s => ({
+            services: manifest.services.map((s) => ({
                 name: s.name,
                 type: s.type,
                 image: s.image,

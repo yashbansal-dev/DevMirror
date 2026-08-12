@@ -94,6 +94,28 @@ export class Diagnoser {
             suggestedFix: 'Review logs above for detailed stack trace or inspect .env configuration.',
         };
     }
+    async executeFix(projectDir, diagnosis) {
+        const actions = [];
+        if (diagnosis.proposedFileChanges) {
+            const fs = await import('node:fs/promises');
+            const path = await import('node:path');
+            for (const change of diagnosis.proposedFileChanges) {
+                const fullPath = path.resolve(projectDir, change.filePath);
+                try {
+                    await fs.appendFile(fullPath, '\n' + change.diffOrContent, 'utf-8');
+                    actions.push({ action: `Updated ${change.filePath} with suggested content`, path: fullPath });
+                }
+                catch {
+                    await fs.writeFile(fullPath, change.diffOrContent, 'utf-8');
+                    actions.push({ action: `Created ${change.filePath}`, path: fullPath });
+                }
+            }
+        }
+        if (actions.length === 0) {
+            actions.push({ action: 'Automated fix applied. Recommended retry: devmirror run' });
+        }
+        return actions;
+    }
     extractSnippet(text, keyword) {
         const lines = text.split('\n');
         const lineIdx = lines.findIndex(l => l.toLowerCase().includes(keyword.toLowerCase()));

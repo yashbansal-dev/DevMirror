@@ -10,7 +10,7 @@ export class ServiceManager {
                 const isDocker = await this.dockerSandbox.checkDockerInstalled();
                 if (isDocker) {
                     await execa('docker', ['compose', '-f', manifest.dockerComposeFile, 'up', '-d'], { cwd: projectDir });
-                    return manifest.services.map(s => ({
+                    return manifest.services.map((s) => ({
                         name: s.name,
                         status: 'started',
                         details: `Running via Docker Compose on port ${s.port}`,

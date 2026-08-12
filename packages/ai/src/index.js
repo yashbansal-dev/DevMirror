@@ -12,10 +12,11 @@ export class AIEngine {
             { from: 'frontend', to: 'api', label: 'HTTP / REST' },
         ];
         for (const db of manifest.databases) {
+            const nodeType = db.type === 'redis' ? 'cache' : 'database';
             nodes.push({
                 id: db.type,
                 label: `${db.type.toUpperCase()} Database`,
-                type: db.type === 'redis' ? 'cache' : 'database',
+                type: nodeType,
                 details: `Port ${db.port}`,
             });
             edges.push({
@@ -43,7 +44,7 @@ export class AIEngine {
         else {
             details['Overview'] = `This project is a ${manifest.framework || manifest.language} application running on ${manifest.runtime || 'Node.js'}.`;
             details['Data Layer'] = manifest.databases.length > 0
-                ? `Uses ${manifest.databases.map(d => d.type).join(', ')} for persistence and caching.`
+                ? `Uses ${manifest.databases.map((d) => d.type).join(', ')} for persistence and caching.`
                 : 'No external database specified.';
         }
         return {
