@@ -1,0 +1,23 @@
+name: 'DevMirror Reproduce Check'
+description: 'Automatically analyze and verify local reproducibility of any GitHub repository using DevMirror'
+inputs:
+  repository-path:
+    description: 'Path to repository directory'
+    required: false
+    default: '.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - name: Install DevMirror CLI
+      shell: bash
+      run: npm install -g devmirror || npm link apps/cli
+
+    - name: Run DevMirror Analysis
+      shell: bash
+      run: devmirror analyze ${{ inputs.repository-path }}
