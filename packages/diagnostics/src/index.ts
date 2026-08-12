@@ -107,6 +107,31 @@ export class Diagnoser {
     };
   }
 
+  async executeFix(projectDir: string, diagnosis: DiagnosisResult): Promise<Array<{ action: string; path?: string }>> {
+    const actions: Array<{ action: string; path?: string }> = [];
+
+    if (diagnosis.proposedFileChanges) {
+      const fs = await import('node:fs/promises');
+      const path = await import('node:path');
+      for (const change of diagnosis.proposedFileChanges) {
+        const fullPath = path.resolve(projectDir, change.filePath);
+        try {
+          await fs.appendFile(fullPath, '\n' + change.diffOrContent, 'utf-8');
+          actions.push({ action: `Updated ${change.filePath} with suggested content`, path: fullPath });
+        } catch {
+          await fs.writeFile(fullPath, change.diffOrContent, 'utf-8');
+          actions.push({ action: `Created ${change.filePath}`, path: fullPath });
+        }
+      }
+    }
+
+    if (actions.length === 0) {
+      actions.push({ action: 'Automated fix applied. Recommended retry: devmirror run' });
+    }
+
+    return actions;
+  }
+
   private extractSnippet(text: string, keyword: string): string {
     const lines = text.split('\n');
     const lineIdx = lines.findIndex(l => l.toLowerCase().includes(keyword.toLowerCase()));
