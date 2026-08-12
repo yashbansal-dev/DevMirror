@@ -7,3 +7,4 @@ build
 coverage
 snapshot.yaml
 .devmirror
+package-lock.json
